@@ -1,0 +1,8 @@
+{
+  "port": "EZMAILER_PORT",
+  "logRotation": "EZMAILER_LOG_ROTATION",
+  "smtp": {
+    "host": "EZMAILER_SMTP_HOST",
+    "port": "EZMAILER_SMTP_PORT"
+  }
+}

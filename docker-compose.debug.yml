@@ -1,0 +1,34 @@
+version: '2.4'
+services:
+  api:
+    image: node:14.15.5-alpine3.13
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - 3000:3000
+    environment:
+      - EZMAILER_SMTP_HOST=maildev
+      - EZMAILER_SMTP_PORT=25
+      - NODE_CONFIG
+    command: npm run dev
+    restart: on-failure
+
+  rp:
+    image: nginx:1.20.1-alpine
+    volumes:
+      - ./rp/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./rp/ssl/:/etc/nginx/ssl/:ro
+    ports:
+      - 443:443
+      - 80:80
+    environment:
+      - EZMAILER_DOMAIN
+    depends_on:
+      - api
+    restart: on-failure
+
+  maildev:
+    image: djfarrelly/maildev
+    ports:
+      - 1080:80

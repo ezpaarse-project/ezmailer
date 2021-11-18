@@ -1,0 +1,32 @@
+version: '2.4'
+services:
+  api:
+    build:
+      context: ./
+      args:
+        - http_proxy
+        - https_proxy
+    volumes:
+      - ./templates/:/usr/src/api:ro
+    working_dir: /usr/src/api
+    ports:
+      - 3000:3000
+    environment:
+      - EZMAILER_SMTP_PORT
+      - EZMAILER_SMTP_HOST
+      - NODE_CONFIG
+    restart: on-failure
+
+  rp:
+    image: nginx:1.20.1-alpine
+    volumes:
+      - ./rp/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./rp/ssl/:/etc/nginx/ssl/:ro
+    ports:
+      - 443:443
+      - 80:80
+    environment:
+      - EZMAILER_DOMAIN
+    depends_on:
+      - api
+    restart: on-failure

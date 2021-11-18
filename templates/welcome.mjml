@@ -1,0 +1,19 @@
+{% extends "layout.mjml" %}
+
+{% block title %}
+<mj-title>Welcome</mj-title>
+{% endblock %}
+
+
+{% block content %}
+<mj-section>
+  <mj-column>
+    <mj-text>
+      <p>Welcome,</p>
+      <p>Firstname: {{ firstName }}</p>
+      <p>Lastname {{ lastName }}</p>
+    </mj-text>
+  </mj-column>
+</mj-section>
+
+{% endblock %}
